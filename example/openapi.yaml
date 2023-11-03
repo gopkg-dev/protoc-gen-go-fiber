@@ -1,0 +1,207 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: BlogService API
+    description: blog service is a blog demo
+    version: 0.0.1
+paths:
+    /v1/articles:
+        get:
+            tags:
+                - BlogService
+            operationId: BlogService_GetArticles
+            parameters:
+                - name: title
+                  in: query
+                  description: '@gotags: form:"title" query:"title"'
+                  schema:
+                    type: string
+                - name: page
+                  in: query
+                  description: '@gotags: form:"page"'
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: '@gotags: form:"page_size"'
+                  schema:
+                    type: integer
+                    format: int32
+                - name: authorId
+                  in: query
+                  description: '@gotags: form:"author_id" params:"author_id"'
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/product.app.v1.GetArticlesResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/google.rpc.Status'
+    /v1/author/:author_id/articles:
+        get:
+            tags:
+                - BlogService
+            operationId: BlogService_GetArticles
+            parameters:
+                - name: title
+                  in: query
+                  description: '@gotags: form:"title" query:"title"'
+                  schema:
+                    type: string
+                - name: page
+                  in: query
+                  description: '@gotags: form:"page"'
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: '@gotags: form:"page_size"'
+                  schema:
+                    type: integer
+                    format: int32
+                - name: authorId
+                  in: query
+                  description: '@gotags: form:"author_id" params:"author_id"'
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/product.app.v1.GetArticlesResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/google.rpc.Status'
+        post:
+            tags:
+                - BlogService
+            operationId: BlogService_CreateArticle
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/product.app.v1.Article'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/product.app.v1.Article'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/google.rpc.Status'
+    /v1/test/:id?:
+        post:
+            tags:
+                - BlogService
+            operationId: BlogService_Test
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/product.app.v1.TestRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/product.app.v1.TestResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/google.rpc.Status'
+components:
+    schemas:
+        google.protobuf.Any:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        google.rpc.Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/google.protobuf.Any'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        product.app.v1.Article:
+            type: object
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
+                authorId:
+                    type: integer
+                    description: '@gotags: form:"author_id" params:"author_id"'
+                    format: int32
+        product.app.v1.GetArticlesResp:
+            type: object
+            properties:
+                total:
+                    type: string
+                articles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/product.app.v1.Article'
+        product.app.v1.TestRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
+                id:
+                    type: integer
+                    description: '@gotags: form:"id" params:"id"'
+                    format: int32
+                query:
+                    type: string
+                    description: '@gotags: query:"query"'
+        product.app.v1.TestResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+tags:
+    - name: BlogService

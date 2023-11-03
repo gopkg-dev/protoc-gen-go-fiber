@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+option go_package = "protoc-gen-go-fiber/example/v1";
+
+package product.app.v1;
+
+import "google/api/annotations.proto";
+import "buf/validate/validate.proto";
+import "gnostic/openapi/v3/annotations.proto";
+
+// blog service is a blog demo
+service BlogService {
+    rpc GetArticles(GetArticlesReq) returns (GetArticlesResp) {
+        option (google.api.http) = {
+            get: "/v1/articles"
+            additional_bindings {
+                get: "/v1/author/:author_id/articles"
+            }
+        };
+    }
+
+    rpc CreateArticle(Article) returns (Article) {
+        option (google.api.http) = {
+            post: "/v1/author/:author_id/articles"
+            body: "*"
+        };
+    }
+
+    rpc Test(TestRequest) returns (TestResponse) {
+        option (google.api.http) = {
+            post: "/v1/test/:id?"
+            body: "*"
+        };
+    }
+}
+
+message TestRequest {
+    string title   = 1;
+    string content = 2;
+
+    // @gotags: form:"id" params:"id"
+    int32 id = 3;
+
+    // @gotags: query:"query"
+    string query = 4;
+}
+
+message TestResponse {
+    string message = 1;
+}
+
+message GetArticlesReq {
+    // @gotags: form:"title" query:"title"
+    string title = 1 [(buf.validate.field).required = true];
+
+    // @gotags: form:"page"
+    int32 page = 2;
+
+    // @gotags: form:"page_size"
+    int32 page_size = 3;
+
+    // @gotags: form:"author_id" params:"author_id"
+    int32 author_id = 4 [(buf.validate.field).int32.gt = 0];
+
+    option (buf.validate.message).cel = {
+        id: "author_id",
+        message: "author_id 必须大于 0",
+        expression: "this.author_id <= 0"
+    };
+}
+
+message GetArticlesResp {
+    int64 total               = 1;
+    repeated Article articles = 2;
+}
+
+message Article {
+    string title   = 1;
+    string content = 2;
+    // @gotags: form:"author_id" params:"author_id"
+    int32 author_id = 3;
+}
