@@ -6,6 +6,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"unicode"
 
 	"google.golang.org/genproto/googleapis/api/annotations"
 	"google.golang.org/protobuf/compiler/protogen"
@@ -209,6 +210,7 @@ func buildMethodDesc(g *protogen.GeneratedFile, m *protogen.Method, method, path
 	if comment != "" {
 		comment = "// " + m.GoName + strings.TrimPrefix(strings.TrimSuffix(comment, "\n"), "//")
 	}
+
 	return &methodDesc{
 		Name:         m.GoName,
 		OriginalName: string(m.Desc.Name()),
@@ -304,6 +306,11 @@ func camelCase(s string) string {
 		}
 	}
 	return string(t)
+}
+
+func toLowerCamelCase(s string) string {
+	s = camelCase(s)
+	return string(unicode.ToLower(rune(s[0]))) + s[1:]
 }
 
 // Is c an ASCII lower-case letter?

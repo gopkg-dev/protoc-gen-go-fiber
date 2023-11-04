@@ -1,18 +1,6 @@
 {{$svrType := .ServiceType}}
 {{$svrName := .ServiceName}}
 
-var validator *protovalidate.Validator
-
-func init() {
-	v, err := protovalidate.New(
-		protovalidate.WithFailFast(true),
-	)
-	if err != nil {
-		panic(err)
-	}
-	validator = v
-}
-
 const (
     {{- range .MethodSets}}
         Operation{{$svrType}}{{.OriginalName}} = "/{{$svrName}}/{{.OriginalName}}"
@@ -52,9 +40,15 @@ func _{{$svrType}}_{{.Name}}{{.Num}}_HTTP_Handler(srv {{$svrType}}HTTPServer) fu
 			return err
 		}
 		{{- end}}
-        if err := validator.Validate(&in); err != nil {
-            return err
-        }
+		v, err := protovalidate.New(
+			protovalidate.WithFailFast(true),
+		)
+		if err != nil {
+			return err
+		}
+		if err = v.Validate(&in); err != nil {
+			return err
+		}
 		out, err := srv.{{.Name}}(c.Context(), &in)
         if err != nil {
             return err

@@ -15,22 +15,10 @@ import (
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the protoc-gen-go-fiber package it is being compiled against.
 
-var validator *protovalidate.Validator
-
-func init() {
-	v, err := protovalidate.New(
-		protovalidate.WithFailFast(true),
-	)
-	if err != nil {
-		panic(err)
-	}
-	validator = v
-}
-
 const (
-	OperationBlogServiceCreateArticle = "/product.app.v1.BlogService/CreateArticle"
-	OperationBlogServiceGetArticles   = "/product.app.v1.BlogService/GetArticles"
-	OperationBlogServiceTest          = "/product.app.v1.BlogService/Test"
+	OperationBlogServiceCreateArticle = "/blog.app.v1.BlogService/CreateArticle"
+	OperationBlogServiceGetArticles   = "/blog.app.v1.BlogService/GetArticles"
+	OperationBlogServiceTest          = "/blog.app.v1.BlogService/Test"
 )
 
 type BlogServiceHTTPServer interface {
@@ -56,7 +44,13 @@ func _BlogService_GetArticles0_HTTP_Handler(srv BlogServiceHTTPServer) func(c *f
 		if err := c.ParamsParser(&in); err != nil {
 			return err
 		}
-		if err := validator.Validate(&in); err != nil {
+		v, err := protovalidate.New(
+			protovalidate.WithFailFast(true),
+		)
+		if err != nil {
+			return err
+		}
+		if err = v.Validate(&in); err != nil {
 			return err
 		}
 		out, err := srv.GetArticles(c.Context(), &in)
@@ -77,7 +71,13 @@ func _BlogService_GetArticles1_HTTP_Handler(srv BlogServiceHTTPServer) func(c *f
 		if err := c.QueryParser(&in); err != nil {
 			return err
 		}
-		if err := validator.Validate(&in); err != nil {
+		v, err := protovalidate.New(
+			protovalidate.WithFailFast(true),
+		)
+		if err != nil {
+			return err
+		}
+		if err = v.Validate(&in); err != nil {
 			return err
 		}
 		out, err := srv.GetArticles(c.Context(), &in)
@@ -104,7 +104,13 @@ func _BlogService_CreateArticle0_HTTP_Handler(srv BlogServiceHTTPServer) func(c 
 		if err := c.ParamsParser(&in); err != nil {
 			return err
 		}
-		if err := validator.Validate(&in); err != nil {
+		v, err := protovalidate.New(
+			protovalidate.WithFailFast(true),
+		)
+		if err != nil {
+			return err
+		}
+		if err = v.Validate(&in); err != nil {
 			return err
 		}
 		out, err := srv.CreateArticle(c.Context(), &in)
@@ -131,7 +137,13 @@ func _BlogService_Test0_HTTP_Handler(srv BlogServiceHTTPServer) func(c *fiber.Ct
 		if err := c.ParamsParser(&in); err != nil {
 			return err
 		}
-		if err := validator.Validate(&in); err != nil {
+		v, err := protovalidate.New(
+			protovalidate.WithFailFast(true),
+		)
+		if err != nil {
+			return err
+		}
+		if err = v.Validate(&in); err != nil {
 			return err
 		}
 		out, err := srv.Test(c.Context(), &in)

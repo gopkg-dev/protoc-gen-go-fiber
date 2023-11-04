@@ -15,24 +15,20 @@ paths:
             parameters:
                 - name: title
                   in: query
-                  description: '@gotags: form:"title" query:"title"'
                   schema:
                     type: string
                 - name: page
                   in: query
-                  description: '@gotags: form:"page"'
                   schema:
                     type: integer
                     format: int32
                 - name: pageSize
                   in: query
-                  description: '@gotags: form:"page_size"'
                   schema:
                     type: integer
                     format: int32
                 - name: authorId
                   in: query
-                  description: '@gotags: form:"author_id" params:"author_id"'
                   schema:
                     type: integer
                     format: int32
@@ -42,7 +38,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/product.app.v1.GetArticlesResp'
+                                $ref: '#/components/schemas/blog.app.v1.GetArticlesResp'
                 default:
                     description: Default error response
                     content:
@@ -57,24 +53,20 @@ paths:
             parameters:
                 - name: title
                   in: query
-                  description: '@gotags: form:"title" query:"title"'
                   schema:
                     type: string
                 - name: page
                   in: query
-                  description: '@gotags: form:"page"'
                   schema:
                     type: integer
                     format: int32
                 - name: pageSize
                   in: query
-                  description: '@gotags: form:"page_size"'
                   schema:
                     type: integer
                     format: int32
                 - name: authorId
                   in: query
-                  description: '@gotags: form:"author_id" params:"author_id"'
                   schema:
                     type: integer
                     format: int32
@@ -84,7 +76,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/product.app.v1.GetArticlesResp'
+                                $ref: '#/components/schemas/blog.app.v1.GetArticlesResp'
                 default:
                     description: Default error response
                     content:
@@ -99,7 +91,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/product.app.v1.Article'
+                            $ref: '#/components/schemas/blog.app.v1.Article'
                 required: true
             responses:
                 "200":
@@ -107,7 +99,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/product.app.v1.Article'
+                                $ref: '#/components/schemas/blog.app.v1.Article'
                 default:
                     description: Default error response
                     content:
@@ -123,7 +115,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/product.app.v1.TestRequest'
+                            $ref: '#/components/schemas/blog.app.v1.TestRequest'
                 required: true
             responses:
                 "200":
@@ -131,7 +123,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/product.app.v1.TestResponse'
+                                $ref: '#/components/schemas/blog.app.v1.TestResponse'
                 default:
                     description: Default error response
                     content:
@@ -140,6 +132,42 @@ paths:
                                 $ref: '#/components/schemas/google.rpc.Status'
 components:
     schemas:
+        blog.app.v1.Article:
+            type: object
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
+                authorId:
+                    type: integer
+                    format: int32
+        blog.app.v1.GetArticlesResp:
+            type: object
+            properties:
+                total:
+                    type: string
+                articles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/blog.app.v1.Article'
+        blog.app.v1.TestRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+                query:
+                    type: string
+        blog.app.v1.TestResponse:
+            type: object
+            properties:
+                message:
+                    type: string
         google.protobuf.Any:
             type: object
             properties:
@@ -164,44 +192,5 @@ components:
                         $ref: '#/components/schemas/google.protobuf.Any'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        product.app.v1.Article:
-            type: object
-            properties:
-                title:
-                    type: string
-                content:
-                    type: string
-                authorId:
-                    type: integer
-                    description: '@gotags: form:"author_id" params:"author_id"'
-                    format: int32
-        product.app.v1.GetArticlesResp:
-            type: object
-            properties:
-                total:
-                    type: string
-                articles:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/product.app.v1.Article'
-        product.app.v1.TestRequest:
-            type: object
-            properties:
-                title:
-                    type: string
-                content:
-                    type: string
-                id:
-                    type: integer
-                    description: '@gotags: form:"id" params:"id"'
-                    format: int32
-                query:
-                    type: string
-                    description: '@gotags: query:"query"'
-        product.app.v1.TestResponse:
-            type: object
-            properties:
-                message:
-                    type: string
 tags:
     - name: BlogService

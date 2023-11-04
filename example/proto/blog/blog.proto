@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "protoc-gen-go-fiber/example/v1";
 
-package product.app.v1;
+package blog.app.v1;
 
 import "google/api/annotations.proto";
 import "buf/validate/validate.proto";
@@ -35,13 +35,9 @@ service BlogService {
 }
 
 message TestRequest {
-    string title   = 1;
+    string title   = 1[(buf.validate.field).string = { max_len : 10}];
     string content = 2;
-
-    // @gotags: form:"id" params:"id"
     int32 id = 3;
-
-    // @gotags: query:"query"
     string query = 4;
 }
 
@@ -50,22 +46,14 @@ message TestResponse {
 }
 
 message GetArticlesReq {
-    // @gotags: form:"title" query:"title"
     string title = 1 [(buf.validate.field).required = true];
-
-    // @gotags: form:"page"
     int32 page = 2;
-
-    // @gotags: form:"page_size"
     int32 page_size = 3;
-
-    // @gotags: form:"author_id" params:"author_id"
-    int32 author_id = 4 [(buf.validate.field).int32.gt = 0];
-
+    int32 author_id = 4;
     option (buf.validate.message).cel = {
         id: "author_id",
         message: "author_id 必须大于 0",
-        expression: "this.author_id <= 0"
+        expression: "this.author_id > 0"
     };
 }
 
@@ -77,6 +65,5 @@ message GetArticlesResp {
 message Article {
     string title   = 1;
     string content = 2;
-    // @gotags: form:"author_id" params:"author_id"
     int32 author_id = 3;
 }
